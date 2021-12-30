@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.tasks.TasksFragment"
+    android:background="@color/cardview_dark_background">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/groupToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/editGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_edit"
+            android:layout_gravity="end" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tasksRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"/>
+
+    <com.nambimobile.widgets.efab.ExpandableFabLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/expandable_fab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.nambimobile.widgets.efab.Overlay
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:overlay_color="@color/transparent_black"
+            app:overlay_alpha="0.75"
+            app:overlay_openingAnimationDurationMs="1000"/>
+
+        <com.nambimobile.widgets.efab.ExpandableFab
+            android:id="@+id/expandable_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="@dimen/ui_margin_medium"
+            android:layout_marginEnd="@dimen/ui_margin_medium"
+            android:layout_marginRight="@dimen/ui_margin_medium"
+            app:efab_icon="@drawable/ic_add"
+            app:efab_iconAnimationRotationDeg="-225"
+            app:efab_closingAnticipateTension="0"/>
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/expandable_fab_addtodo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#ffc107"
+            app:fab_icon="@drawable/ic_add"
+            app:label_text="Add Todo"
+            app:label_backgroundColor="@color/nav_header_background"/>
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/expandable_fab_addgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#fe5c36"
+            app:fab_icon="@drawable/ic_add"
+            app:label_text="Add Todo Group"
+            app:label_backgroundColor="@color/nav_header_background" />
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/expandable_fab_addtag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#20c997"
+            app:fab_icon="@drawable/ic_add"
+            app:label_text="Add Tag"
+            app:label_backgroundColor="@color/nav_header_background" />
+
+    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

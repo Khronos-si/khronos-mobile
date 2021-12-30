@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="8dp"
+    android:layout_marginBottom="2dp"
+    android:background="@color/nav_header_background">
+
+    <CheckBox
+        android:id="@+id/task_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/task_name"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:hint="Task name"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/task_status"
+        app:layout_constraintTop_toTopOf="@+id/task_status" />
+
+    <TextView
+        android:id="@+id/task_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Task description"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/task_status"
+        app:layout_constraintTop_toBottomOf="@+id/task_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
