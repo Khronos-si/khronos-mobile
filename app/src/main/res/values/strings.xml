@@ -23,4 +23,5 @@
     <string name="invalid_username">Not a valid e-mail</string>
     <string name="invalid_password">Enter password</string>
     <string name="login_failed">"Incorrect username or password"</string>
+    <string name="action_logout">Log out</string>
 </resources>

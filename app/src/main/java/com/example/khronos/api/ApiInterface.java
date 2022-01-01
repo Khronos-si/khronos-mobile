@@ -6,8 +6,6 @@ import com.example.khronos.structures.User;
 import com.example.khronos.structures.Login;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -17,7 +15,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiInterface {
@@ -26,6 +23,14 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("user/login")
     Call<User> login(@Body Login body);
+
+    @Headers("Content-Type: application/json")
+    @GET("user/refresh-token")
+    Call<Void> refreshToken();
+
+    @Headers("Content-Type: application/json")
+    @POST("user/logout")
+    Call<Void> logout();
 
     // TODOS
     @Headers("Content-Type: application/json")

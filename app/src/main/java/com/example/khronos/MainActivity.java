@@ -1,12 +1,18 @@
 package com.example.khronos;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -26,9 +32,14 @@ import com.example.khronos.structures.TodoGroup;
 import com.example.khronos.structures.User;
 import com.example.khronos.ui.calendar.CalendarFragment;
 import com.example.khronos.ui.home.HomeFragment;
+import com.example.khronos.ui.login.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -37,8 +48,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    String EXTRA_TOKEN = "com.example.khronos.TOKEN";
 
     private static final String TAG = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
@@ -56,17 +65,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // todo list
     public static LinkedList<TodoGroup> todoGroups;
 
+    // preferences
+    SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // get token
-        Intent intent = getIntent();
-        String token = intent.getStringExtra(EXTRA_TOKEN);
+        preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        String token = preferences.getString("token","");
 
-        // set token
+        // set api client and token
         ApiClient.getClient().create(ApiInterface.class);
+        ApiClient.setSharedPreferences(getSharedPreferences("myPrefs", MODE_PRIVATE).edit());
         ApiClient.token = token;
+
+        Log.d(TAG, "onCreate: MAIN ACTIVITY TOKEN: " + token);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -119,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         colors.add("#58555A".toUpperCase());
     }
 
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -134,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 // TASKS
                 case R.id.nav_tasks:
-                    goToTasks(-1);
+                    goToTasks(0);
                     break;
 
                 // CALENDAR
@@ -155,6 +169,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // set credentials in navbar
+        String username = preferences.getString("username", "");
+        TextView userView =  binding.navView.findViewById(R.id.nameSurname);
+        userView.setText(username);
+        String mail = preferences.getString("mail", "");
+        TextView mailView =  binding.navView.findViewById(R.id.email);
+        mailView.setText(mail);
+
+        Context context = this;
+
+        MenuItem logOut = binding.appBarMain.toolbar.getMenu().getItem(0);
+        logOut.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                
+                Call<Void> call = apiInterface.logout();
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        Log.d(TAG, "onResponse: RESPONSE: " + response.code());
+                        
+                        // go to login page
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+
+                        Log.d(TAG, "onResponse: LOGOUT SUCCESSFUL");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.d(TAG, "onFailure: failed to logout" + t.getMessage());
+                    }
+                });
+
+                return false;
+            }
+        });
+
         return true;
     }
 

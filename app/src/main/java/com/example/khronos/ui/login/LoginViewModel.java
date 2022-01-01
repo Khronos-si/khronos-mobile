@@ -1,11 +1,14 @@
 package com.example.khronos.ui.login;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.khronos.MainActivity.apiInterface;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Patterns;
 
@@ -41,7 +44,7 @@ public class LoginViewModel extends ViewModel {
 
     String getToken() {return ApiClient.token;}
 
-    public void login(String username, String password) {
+    public void login(String username, String password, SharedPreferences preferences) {
 
         // can be launched in a separate asynchronous job
 
@@ -60,7 +63,15 @@ public class LoginViewModel extends ViewModel {
                     Log.d(TAG, "Login - onResponse:" + response.body());
                     Log.d(TAG, "TOKEN: " + ApiClient.token);
                     assert response.body() != null;
+
+                    // save token & credentials
+                    preferences.edit().putString("token", ApiClient.token)
+                                      .putString("username", response.body().getUser())
+                                      .putString("mail", username).apply();
+
+                    // set login status
                     loginResult.setValue(new LoginResult(new LoggedInUserView(response.body().getUser())));
+
                 } else {
                     loginResult.setValue(new LoginResult(R.string.login_failed));
                 }

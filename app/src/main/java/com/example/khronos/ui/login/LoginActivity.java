@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -30,17 +31,28 @@ import com.example.khronos.MainActivity;
 import com.example.khronos.R;
 import com.example.khronos.api.ApiClient;
 import com.example.khronos.api.ApiInterface;
+import com.example.khronos.structures.TodoGroup;
 import com.example.khronos.ui.login.LoginViewModel;
 import com.example.khronos.ui.login.LoginViewModelFactory;
 import com.example.khronos.databinding.ActivityLoginBinding;
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     String TAG = "LoginActivity";
-    String EXTRA_TOKEN = "com.example.khronos.TOKEN";
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+
+    // api interface
+    public static final ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,42 @@ public class LoginActivity extends AppCompatActivity {
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
+        // get token
+        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        String token = preferences.getString("token","");
+
+        //if token exists
+        if (token.length() > 0) {
+
+            // set token & get new token (to verify it's correct)
+            ApiClient.setSharedPreferences(getSharedPreferences("myPrefs", MODE_PRIVATE).edit());
+            ApiClient.token = token;
+
+            Log.d(TAG, "onCreate: TOKEN: " + token);
+            Context context = this;
+            
+            Call<Void> call = apiInterface.refreshToken();
+            call.enqueue(new Callback<Void>() {
+
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+
+                    // start main activity
+                    Intent intent = new Intent(context, MainActivity.class);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.d(TAG, "onFailure: ni kul: " + t.getMessage());
+                }
+            });
+
+
+
+        }
+
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
@@ -122,9 +170,15 @@ public class LoginActivity extends AppCompatActivity {
 
                     // do login
                     loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                            passwordEditText.getText().toString(), preferences);
 
-                    Log.d(TAG, "onEditorAction: LOGIN");
+                    // hide keyboard
+                    final Activity activity = LoginActivity.this;
+                    final InputMethodManager inputManager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (activity.getCurrentFocus() != null)
+                        inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    loadingProgressBar.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
@@ -136,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 // do login
                 loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                        passwordEditText.getText().toString(), preferences);
 
                 // hide keyboard
                 final Activity activity = LoginActivity.this;
@@ -155,9 +209,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        // send token
+        // start main activity
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(EXTRA_TOKEN, ApiClient.token);
         startActivity(intent);
     }
 
