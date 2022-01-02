@@ -50,34 +50,31 @@ public class ApiClient {
             Response response = chain.proceed(request);
 
             // if token is invalid
-            if (response.code() == 400 && !request.url().toString().equals(BASE_URL + "user/logout")) {
+            if (response.code() == 400 && response.body() != null && response.body().string().contains("Invalid Token")
+                    && !request.url().toString().equals(BASE_URL + "user/refresh-token")
+                    && !request.url().toString().equals(BASE_URL + "user/logout")) {
 
-                Log.d(TAG, "intercept: FIRST INVALID: CODE: " + response.message());
-                Log.d(TAG, "intercept: USL: " + request.url());
-
-                // if token is again invalid (can't renew) -> re-login
-                if(invalidToken) {
-                    invalidToken = false;
-                    // return response
-                    return response;
-                }
+                Log.d(TAG, "intercept: URL: " + request.url().toString());
 
                 response.close();
-                Log.d(TAG, "intercept: invalid token");
 
                 // request new token and save it
-                invalidToken = true;
                 Call<Void> call = apiInterface.refreshToken();
-                setNewToken(call.execute().headers().get("auth-token"));
-                
+
+                Request newRequest  = call.request().newBuilder()
+                        .addHeader("auth-token", token)
+                        .build();
+
+                response = chain.proceed(newRequest);
 
                 // if request for new token was succesfull
                 if (response.code() == 200) {
-                    response = chain.proceed(request);
+                    setNewToken(response.headers().get("auth-token"));
                 } else {
-                    // if request for new token was not succesfull -> re-login
-                    Log.d(TAG, "intercept: need to relogin");
-
+                    editor.remove("token");
+                    editor.commit();
+                    MainActivity.returnToLogin.postValue(true);
+                    Log.d(TAG, "intercept: RETURN TO LOGIN!");
                 }
             }
 

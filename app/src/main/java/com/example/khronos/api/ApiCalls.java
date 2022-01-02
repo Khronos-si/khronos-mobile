@@ -212,38 +212,30 @@ public class ApiCalls {
             @Override
             public void onResponse(@NonNull Call<List<TodoGroup>> call, @NonNull Response<List<TodoGroup>> response) {
 
-                if (response.body() == null) {
-                    try {
-                        Log.d(TAG, "onResponse: EMPTY BODY:" + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                assert response.body() != null;
+               if (response.body() != null) {
+                   // fill task group list
+                   for (TodoGroup group:response.body()) {
+                       //Log.d(TAG, "GROUP NAME: " + group.getName());
+                       taskGroups.addLast(group);
+                   }
 
-                // fill task group list
-                for (TodoGroup group:response.body()) {
-                    //Log.d(TAG, "GROUP NAME: " + group.getName());
-                    taskGroups.addLast(group);
-                }
+                   int newSelectedGroup = selectedGroup;
+                   // set active group to show
+                   if (selectedGroup < 0) // first item
+                       newSelectedGroup= todoGroups.size() - 1;
 
-                int newSelectedGroup = selectedGroup;
-                // set active group to show
-                if (selectedGroup < 0) // first item
-                    newSelectedGroup= todoGroups.size() - 1;
+                   // send data to fragment & show it
+                   Bundle bundle = new Bundle();
+                   bundle.putInt("selected_group", newSelectedGroup);
 
-                // send data to fragment & show it
-                Bundle bundle = new Bundle();
-                bundle.putInt("selected_group", newSelectedGroup);
+                   Fragment fragment = new TasksFragment();
+                   fragment.setArguments(bundle);
 
-                Fragment fragment = new TasksFragment();
-                fragment.setArguments(bundle);
-
-                if (ft != null) {
-                    ft.replace(R.id.nav_host_fragment_content_main, fragment, "tasks");
-                    ft.commit();
-                }
-
+                   if (ft != null) {
+                       ft.replace(R.id.nav_host_fragment_content_main, fragment, "tasks");
+                       ft.commit();
+                   }
+               }
             }
 
             @Override

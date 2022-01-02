@@ -1,5 +1,6 @@
 package com.example.khronos.api;
 
+import com.example.khronos.structures.CalendarGroup;
 import com.example.khronos.structures.Todo;
 import com.example.khronos.structures.TodoGroup;
 import com.example.khronos.structures.User;
@@ -68,6 +69,12 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @DELETE("todo/group/{id}")
     Call<JsonObject> deleteTodoGroup(@Path (value = "id") String id);
+
+    // EVENTS
+    @Headers("Content-Type: application/json")
+    @GET("todo/group")
+    Call<List<CalendarGroup>> getEvents();
+
 }
 
 

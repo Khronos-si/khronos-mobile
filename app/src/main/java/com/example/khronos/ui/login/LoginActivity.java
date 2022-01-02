@@ -84,9 +84,12 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
 
-                    // start main activity
-                    Intent intent = new Intent(context, MainActivity.class);
-                    context.startActivity(intent);
+                    if (response.code() == 200) {
+
+                        // start main activity
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
+                    }
                 }
 
                 @Override
@@ -94,9 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG, "onFailure: ni kul: " + t.getMessage());
                 }
             });
-
-
-
         }
 
 

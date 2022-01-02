@@ -46,8 +46,6 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String password, SharedPreferences preferences) {
 
-        // can be launched in a separate asynchronous job
-
         Log.d(TAG, "login: USERNAME " + username);
         Log.d(TAG, "login: PASSWORD " + password);
 

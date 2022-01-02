@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -56,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // current fragment
     public static String activeFragment = "";
 
+    // context
+    Context context = this;
+
     // api interface
     public static final ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -67,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // preferences
     SharedPreferences preferences;
+
+    // return to login listener
+    public static MutableLiveData<Boolean> returnToLogin = new MutableLiveData<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +120,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setItemIconTintList(null);
+
+        // init return to login listener
+        returnToLogin.setValue(false);
+        returnToLogin.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+
+                if (aBoolean) {
+
+                    // display message
+                    Toast.makeText(getApplicationContext(), "Token expired, need to relogin.", Toast.LENGTH_LONG).show();
+
+                    // start login activity
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+            }
+        });
 
     }
 
@@ -178,8 +205,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView mailView =  binding.navView.findViewById(R.id.email);
         mailView.setText(mail);
 
-        Context context = this;
-
         MenuItem logOut = binding.appBarMain.toolbar.getMenu().getItem(0);
         logOut.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -189,8 +214,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-
-                        Log.d(TAG, "onResponse: RESPONSE: " + response.code());
                         
                         // go to login page
                         Intent intent = new Intent(context, LoginActivity.class);
