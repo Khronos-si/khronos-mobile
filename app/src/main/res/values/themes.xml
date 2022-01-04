@@ -26,4 +26,10 @@
 
     <style name="MyActionBar"><item name="android:background">@color/nav_header_background</item></style>
 
+    // avatar
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

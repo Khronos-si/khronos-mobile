@@ -36,9 +36,6 @@ public class ApiClient {
     // editor for token update
     private static SharedPreferences.Editor editor;
 
-    // invalid token
-    private static boolean invalidToken = false;
-
     static OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
         @NonNull
         @Override
@@ -69,8 +66,21 @@ public class ApiClient {
 
                 // if request for new token was succesfull
                 if (response.code() == 200) {
+
+                    // retry previous request
                     setNewToken(response.headers().get("auth-token"));
+                    token = response.headers().get("auth-token");
+                    response.close();
+
+                    request  = chain.request().newBuilder()
+                            .addHeader("auth-token", token)
+                            .build();
+
+                    response = chain.proceed(request);
+
                 } else {
+
+                    // return to login page and destroy token
                     editor.remove("token");
                     editor.commit();
                     MainActivity.returnToLogin.postValue(true);

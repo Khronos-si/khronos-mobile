@@ -65,7 +65,9 @@ public class LoginViewModel extends ViewModel {
                     // save token & credentials
                     preferences.edit().putString("token", ApiClient.token)
                                       .putString("username", response.body().getUser())
-                                      .putString("mail", username).apply();
+                                      .putString("mail", username)
+                                      .putString("avatar", response.body().getAvatar())
+                                      .apply();
 
                     // set login status
                     loginResult.setValue(new LoginResult(new LoggedInUserView(response.body().getUser())));

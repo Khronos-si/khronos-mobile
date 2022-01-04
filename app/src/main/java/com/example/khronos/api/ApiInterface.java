@@ -72,8 +72,11 @@ public interface ApiInterface {
 
     // EVENTS
     @Headers("Content-Type: application/json")
-    @GET("todo/group")
-    Call<List<CalendarGroup>> getEvents();
+    @GET("event")
+    Call<List<CalendarGroup>> getCalendarGroups();
+
+
+
 
 }
 

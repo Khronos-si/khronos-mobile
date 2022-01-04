@@ -122,8 +122,10 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
                 i++;
             }
 
-            // menu set checked items
+            // set submenu checkable
             subMenu.setGroupCheckable(1, true, true);
+
+            // menu set "tasks" as selected
             m.getItem(1).setChecked(true);
 
             // modify toolbar

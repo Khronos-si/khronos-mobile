@@ -13,15 +13,18 @@
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/ic_khronos_logo.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/ic_logo.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/ic_menu_camera.xml" value="0.21875" />
+        <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/ic_outline_circle.xml" value="0.2171875" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/ic_tasks.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/rounded_pop_up.xml" value="0.21875" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/side_nav_bar.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/drawable/task_item.xml" value="0.21875" />
+        <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout-v28/nav_header_main.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.13018741633199465" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout-w936dp/activity_login.xml" value="0.151953125" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/app_bar_main.xml" value="0.33" />
+        <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/calendar_day_layout.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/content_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/edit_group.xml" value="0.33" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/edit_todo.xml" value="0.20260416666666667" />
@@ -31,7 +34,7 @@
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/fragment_home.xml" value="0.3625" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/fragment_slideshow.xml" value="0.3625" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/fragment_tasks.xml" value="0.14" />
-        <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/nav_header_main.xml" value="0.33" />
+        <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/nav_header_main.xml" value="0.3579088471849866" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/layout/task_item.xml" value="0.33" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/menu/activity_main_drawer.xml" value="0.5" />
         <entry key="..\:/Users/Jure/AndroidStudioProjects/Khronos/app/src/main/res/menu/main.xml" value="0.3625" />

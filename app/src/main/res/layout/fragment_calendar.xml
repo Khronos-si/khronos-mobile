@@ -7,13 +7,10 @@
     tools:context=".ui.calendar.CalendarFragment"
     android:background="@color/cardview_dark_background">
 
-    <CalendarView
+    <com.kizitonwose.calendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:firstDayOfWeek="0"
-        android:measureAllChildren="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:cv_dayViewResource="@layout/calendar_day_layout"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

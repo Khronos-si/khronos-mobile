@@ -22,12 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.khronos.structures.CalendarGroup;
 import com.example.khronos.structures.Login;
 import com.example.khronos.MainActivity;
 import com.example.khronos.R;
 import com.example.khronos.structures.Todo;
 import com.example.khronos.structures.TodoGroup;
 import com.example.khronos.structures.User;
+import com.example.khronos.ui.calendar.CalendarFragment;
 import com.example.khronos.ui.tasks.TasksFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
@@ -354,5 +356,72 @@ public class ApiCalls {
 
         });
     }
-    
+
+    // calendar
+    public static void getCalendarGroups(LinkedList<CalendarGroup> calendarGroups, LinkedList<Boolean> calendarsChecked, FragmentTransaction ft) {
+
+        Log.d(TAG, "getCalendarGroups: call");
+
+        Call<List<CalendarGroup>> call = apiInterface.getCalendarGroups();
+        call.enqueue(new Callback<List<CalendarGroup>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<CalendarGroup>> call, @NonNull Response<List<CalendarGroup>> response) {
+
+                if (response.body() != null) {
+
+                    // new list for checked calendars
+                    LinkedList<Boolean> newCalendarsChecked = new LinkedList<>();
+
+                    // fill calendar group list
+                    for (CalendarGroup group:response.body()) {
+                        //Log.d(TAG, "GROUP NAME: " + group.getName());
+                        calendarGroups.addLast(group);
+
+                        // set new checked list
+                        if (calendarsChecked.size() > 0) {
+                            if (!calendarsChecked.getFirst())
+                                newCalendarsChecked.addLast(false);
+                            else
+                                newCalendarsChecked.addLast(true);
+                            calendarsChecked.removeFirst();
+                        } else
+                            newCalendarsChecked.addLast(true);
+                    }
+                    calendarsChecked.addAll(newCalendarsChecked);
+
+                    // if any group was removed -> check all
+                    if (calendarsChecked.size() != calendarGroups.size()) {
+                        calendarsChecked.clear();
+                        for (int i = 0; i < calendarGroups.size(); i++)
+                            calendarsChecked.addLast(true);
+                    }
+
+
+                    /*int newSelectedGroup = selectedGroup;
+
+                    // set active group to show
+                    if (selectedGroup < 0) // first item
+                        newSelectedGroup= todoGroups.size() - 1;*/
+
+                    // send data to fragment & show it
+                    //Bundle bundle = new Bundle();
+                    //bundle.putInt("selected_group", newSelectedGroup);
+
+                    Fragment fragment = new CalendarFragment();
+                    //fragment.setArguments(bundle);
+
+                    if (ft != null) {
+                        ft.replace(R.id.nav_host_fragment_content_main, fragment, "events");
+                        ft.commit();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CalendarGroup>> call, Throwable t) {
+                Log.d(TAG, "onFailure: getCalendarGroups " + t.getLocalizedMessage());
+            }
+        });
+    }
 }
