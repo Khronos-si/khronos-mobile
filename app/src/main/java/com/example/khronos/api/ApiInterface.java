@@ -1,5 +1,6 @@
 package com.example.khronos.api;
 
+import com.example.khronos.structures.CalendarEvent;
 import com.example.khronos.structures.CalendarGroup;
 import com.example.khronos.structures.Todo;
 import com.example.khronos.structures.TodoGroup;
@@ -74,6 +75,10 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @GET("event")
     Call<List<CalendarGroup>> getCalendarGroups();
+
+    @Headers("Content-Type: application/json")
+    @GET("event/{id}")
+    Call<CalendarEvent> getCalendarEvent(@Path (value = "id") String id);
 
 
 

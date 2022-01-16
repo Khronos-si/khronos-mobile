@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/headerTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="October 2019" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerTextView"
+        android:gravity="center"
+        android:paddingBottom="2dp">
+
+        <TextView
+            android:id="@+id/day1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="MON"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/day2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="TUE"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/day3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="WED"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/day4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="THU"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/day5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="FRI"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/day6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="SAT"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/day7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="SUN"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

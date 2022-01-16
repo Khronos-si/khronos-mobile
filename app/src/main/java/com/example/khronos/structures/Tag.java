@@ -2,22 +2,22 @@ package com.example.khronos.structures;
 
 public class Tag {
 
-    private String id;
+    private String _id;
     private String name;
     private String color;
 
-    public Tag(String id, String name, String color) {
-        this.id = id;
+    public Tag(String _id, String name, String color) {
+        this._id = _id;
         this.name = name;
         this.color = color;
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getName() {

@@ -1,8 +1,23 @@
 package com.example.khronos.structures;
 
+import android.util.Log;
+
 import com.google.gson.JsonObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 public class CalendarEvent {
+
+    private static final String TAG = "CalendarEvent";
+
     private String _id;
     private String name;
     private User owner;
@@ -73,8 +88,42 @@ public class CalendarEvent {
         this.end = end;
     }
 
-    public JsonObject getDates() {
-        return dates;
+    public String [] getDates() {
+
+        LinkedList<String> dates = new LinkedList<>();
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date1 = null;
+        Date date2 = null;
+
+        try {
+            date1 = df1 .parse(String.valueOf(LocalDate.parse(start.split("T")[0])));
+            date2 = df1 .parse(String.valueOf(LocalDate.parse(end.split("T")[0])));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+
+
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+
+        while(!cal1.after(cal2))
+        {
+            String frmt = new SimpleDateFormat("yyyy-MM-dd").format(cal1.getTime().getTime());
+            dates.add(frmt);
+            Log.d(TAG, "getDates: " + frmt);
+            cal1.add(Calendar.DATE, 1);
+        }
+
+        String [] tab;
+        tab = dates.toArray(new String[dates.size()]);
+        Log.d(TAG, "getDates: tab size: " + tab.length);
+
+
+        return tab;
     }
 
     public void setDates(JsonObject dates) {
