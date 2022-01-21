@@ -31,7 +31,9 @@ import com.example.khronos.MainActivity;
 import com.example.khronos.R;
 import com.example.khronos.api.ApiClient;
 import com.example.khronos.api.ApiInterface;
+import com.example.khronos.structures.Login;
 import com.example.khronos.structures.TodoGroup;
+import com.example.khronos.structures.User;
 import com.example.khronos.ui.login.LoginViewModel;
 import com.example.khronos.ui.login.LoginViewModelFactory;
 import com.example.khronos.databinding.ActivityLoginBinding;
@@ -103,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
+        final Button registerButton = binding.register;
         final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -112,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 loginButton.setEnabled(loginFormState.isDataValid());
+                registerButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -199,6 +203,39 @@ public class LoginActivity extends AppCompatActivity {
                     inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                 loadingProgressBar.setVisibility(View.VISIBLE);
+            }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<Login> call = apiInterface.register(new Login(usernameEditText.getText().toString(), passwordEditText.getText().toString(), usernameEditText.getText().toString().split("@")[0]));
+                call.enqueue(new Callback<Login>() {
+                    @Override
+                    public void onResponse(Call<Login> call, Response<Login> response) {
+                        
+                        // success
+                        if (response.code() == 200) {
+                            // do login
+                            loginViewModel.login(usernameEditText.getText().toString(),
+                                    passwordEditText.getText().toString(), preferences);
+
+                            // hide keyboard
+                            final Activity activity = LoginActivity.this;
+                            final InputMethodManager inputManager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            if (activity.getCurrentFocus() != null)
+                                inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                            loadingProgressBar.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Login> call, Throwable t) {
+                        Log.d(TAG, "onFailure: Register failed");
+                    }
+                });
+                
             }
         });
     }

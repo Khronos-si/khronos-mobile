@@ -172,7 +172,7 @@ public class CalendarFragment extends Fragment {
                             // Get a handle to the RecyclerView.
                             mRecyclerView = binding.eventsListView;
                             // Create an adapter and supply the data to be displayed.
-                            mAdapter = new EventListAdapter(binding.getRoot().getContext(), container.events, container.colorevents);
+                            mAdapter = new EventListAdapter(binding.getRoot().getContext(), container.events, container.colorevents, container.day.getDate().toString());
                             // Connect the adapter with the RecyclerView.
                             mRecyclerView.setAdapter(mAdapter);
                             // Give the RecyclerView a default layout manager.
@@ -242,6 +242,7 @@ public class CalendarFragment extends Fragment {
                         //if date of event in map is same as date in cell
                         if (dateInEvent.equals(calendarDay.getDate().toString())) {
                             colorevents.addLast(cevent.getValue());
+
                             idevents.addLast(cevent.getKey());
                             Log.d(TAG, "bind: ADDING EVENT " + cevent.getKey().getStart());
                         }

@@ -27,6 +27,10 @@ public interface ApiInterface {
     Call<User> login(@Body Login body);
 
     @Headers("Content-Type: application/json")
+    @POST("user/register")
+    Call<Login> register(@Body Login body);
+
+    @Headers("Content-Type: application/json")
     @GET("user/refresh-token")
     Call<Void> refreshToken();
 

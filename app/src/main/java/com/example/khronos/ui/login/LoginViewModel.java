@@ -49,7 +49,7 @@ public class LoginViewModel extends ViewModel {
         Log.d(TAG, "login: USERNAME " + username);
         Log.d(TAG, "login: PASSWORD " + password);
 
-        Call<User> call = apiInterface.login(new Login(username, password));
+        Call<User> call = apiInterface.login(new Login(username, password, null));
         call.enqueue(new Callback<User>() {
 
             @Override
